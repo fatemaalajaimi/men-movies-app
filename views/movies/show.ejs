@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .card {
+        max-width: 1000px; /* Adjust the card width */
+      }
+      .img-container {
+        width: 40%; /* Image container width */
+        overflow: hidden; /* Ensures proper cropping if needed */
+      }
+      .img-container img {
+        width: 100%; /* Image fills the container */
+        height: auto;
+        display: block; /* Ensures no extra spacing */
+      }
+      .content-container {
+        width: 60%; /* Content container width */
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <div
+      class="d-flex justify-content-center align-items-center full-height"
+      style="height: 100vh"
+    >
+      <!-- Card -->
+      <div class="card d-flex flex-row">
+        <!-- Image Container -->
+        <div class="img-container">
+          <img src="<%= movie.image %>" class="img-fluid" alt="Card image" />
+        </div>
+        <!-- Content Container -->
+        <div class="content-container">
+          <div class="card-body">
+            <h5 class="card-title"><%= movie.name %></h5>
+            <p class="card-text"><%= movie.description %></p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <b>Category:</b> <%= movie.category %>
+            </li>
+            <li class="list-group-item">
+              <b>Running time:</b><%= movie.runningTime %>
+            </li>
+            <li class="list-group-item">A third item</li>
+          </ul>
+
+          <div class="card-body">
+            <!-- Admin user -->
+            <% if (user.type == "Admin") { %>
+            <a href="/movies/<%= movie._id %>/edit">Edit this movie</a>
+
+            <form
+              action="/movies/<%= movie._id %>?_method=DELETE"
+              method="POST"
+            >
+              <button type="button submit" class="btn btn-secondary">
+                Delete
+              </button>
+            </form>
+            <% } %>
+
+            <!-- Normal user -->
+            <% if (user.type == "Normal") { %>
+            <form action="/bookings/new/<%=movie._id%>" method="POST">
+              <!-- choose number of tickets -->
+              <div class="md-3">
+                <label for="ticketsCount" class="form-label"
+                  >Number of tickets</label
+                >
+                <select
+                  class="form-select"
+                  name="ticketsCount"
+                  id="ticketsCount"
+                  required
+                >
+                  <% for(let i= 1; i<= movie.availableTickets; i++){ %>
+                  <option value="<%= i %>"><%= i %></option>
+                  <% } %>
+                </select>
+              </div>
+              <!-- choose the booking date -->
+              <div class="mb-3">
+                <label for="bookingDate" class="form-label"> Show date</label>
+                <input
+                  type="Date"
+                  class="form-control"
+                  name="bookingDate"
+                  id="bookingDate"
+                  required
+                />
+              </div>
+
+              <br />
+              <button type="submit" class="btn btn-primary">Book Movie</button>
+            </form>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

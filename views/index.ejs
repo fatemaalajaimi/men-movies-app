@@ -1,0 +1,121 @@
+<!-- views/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+  </head>
+  <body>
+    <%- include('./partials/navbar.ejs') %>
+    <br /><br />
+    <div class="container my-5">
+      <div
+        id="carouselExampleInterval"
+        class="carousel slide mx-auto"
+        style="width: 80%"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="3000">
+            <img
+              src="https://www.researchgate.net/publication/263091364/figure/fig10/AS:614004300988429@1523401441367/Movie-poster-and-adventure-scene-of-Sanctum.png"
+              class="d-block mx-auto w-100"
+              alt="Movie image"
+            />
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img
+              src="https://www.researchgate.net/publication/263091364/figure/fig10/AS:614004300988429@1523401441367/Movie-poster-and-adventure-scene-of-Sanctum.png"
+              class="d-block mx-auto w-100"
+              alt="..."
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://www.researchgate.net/publication/263091364/figure/fig10/AS:614004300988429@1523401441367/Movie-poster-and-adventure-scene-of-Sanctum.png"
+              class="d-block mx-auto w-100"
+              alt="..."
+            />
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleInterval"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleInterval"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+
+    <% if (user && user.type == "Admin") { %>
+    <form action="/movies/new" method="GET">
+      <button type="button submit" class="btn btn-secondary">
+        Add a new Movie
+      </button>
+    </form>
+    <% } %> <% if (user && user.type == "Normal") { %>
+    <form action="/bookings/displayBookings/<%=user._id%>" method="GET">
+      <button type="button submit" class="btn btn-secondary">
+        My Bookings
+      </button>
+    </form>
+    <% } %>
+
+    <!-- Display cards here -->
+
+    <div class="d-flex justify-content-center align-items-center full-height">
+      <div class="d-flex flex-wrap justify-content-center">
+        <% movies.forEach((movie) => { %>
+        <div class="card m-3" style="width: 18rem">
+          <img src="<%= movie.image %>" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title"><%= movie.name %></h5>
+            <p class="card-text"><%= movie.description %></p>
+            <% if (user) { %>
+            <a href="/movies/<%= movie._id %>" class="btn btn-primary"
+              >Show Details</a
+            >
+            <% } %>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- Check the type of the logged in user and display data accordingly -->
+    <% if (user) { %>
+    <!-- You are signed in -->
+    You are signed in
+    <!--  -->
+    <% if (user.type == "Admin") { %>
+    <!-- You are Admin -->
+    You are Admin
+    <!--  -->
+    <% } else { %>
+    <!-- You are Normal user -->
+    You are Normal user
+    <!--  -->
+    <% } %>
+
+    <!--  -->
+    <% } else { %>
+    <!-- You are not signed in -->
+    You are not signed in
+    <!--  -->
+    <% } %>
+  </body>
+</html>

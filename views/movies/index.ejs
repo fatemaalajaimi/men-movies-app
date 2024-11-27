@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Movies</title>
+  </head>
+  <body>
+    <h1>Here's all the Movies</h1>
+
+    <!-- views/listings/index.ejs -->
+
+    <ul>
+      <% movies.forEach((movie) => { %>
+      <li>
+        Movie name is <%= movie.name %> created by <%= movie.owner.username %>.
+      </li>
+      <% }) %>
+    </ul>
+
+    <a href="/movies/new">Add a New Movie</a>
+  </body>
+</html>
