@@ -125,27 +125,5 @@
         </div>
       </div>
     </div>
-
-    <!-- Check the type of the logged in user and display data accordingly -->
-    <% if (user) { %>
-    <!-- You are signed in -->
-    You are signed in
-    <!--  -->
-    <% if (user.type == "Admin") { %>
-    <!-- You are Admin -->
-    You are Admin
-    <!--  -->
-    <% } else { %>
-    <!-- You are Normal user -->
-    You are Normal user
-    <!--  -->
-    <% } %>
-
-    <!--  -->
-    <% } else { %>
-    <!-- You are not signed in -->
-    You are not signed in
-    <!--  -->
-    <% } %>
   </body>
 </html>
