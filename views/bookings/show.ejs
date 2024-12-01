@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow for better aesthetics */
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('../partials/navbar.ejs') %>
+    <br />
+
+    <div class="container my-5">
+      <h3 class="text-center mb-4">My Bookings</h3>
+
+      <div class="d-flex flex-wrap justify-content-center">
+        <% bookings.forEach((booking, index) => { %>
+        <div class="card m-3" style="width: 22rem">
+          <div class="card-header text-center">
+            <b><%= booking.movieID.name %></b>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Number of Tickets: <b><%= booking.ticketsCount %></b>
+            </li>
+            <li class="list-group-item">
+              Booking Date:
+              <b
+                ><%= new Date(booking.bookingDate).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric' }) %>
+              </b>
+            </li>
+          </ul>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </body>
+</html>

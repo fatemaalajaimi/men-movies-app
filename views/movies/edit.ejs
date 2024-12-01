@@ -17,6 +17,10 @@
   <body>
     <%- include('../partials/navbar.ejs') %>
 
+    <br />
+    <h3 class="col-6 mx-auto my-auto">Edit Movie</h3>
+    <br />
+
     <div class="col-6 mx-auto my-auto">
       <form action="/movies/<%= movie._id %>?_method=PUT" method="POST">
         <!-- Name -->

@@ -32,7 +32,8 @@ router.post('/sign-up', async (req, res) => {
 
   // Creating the user
   const user = await User.create(req.body)
-  res.send(`Thanks for signing up ${user.username}`)
+  //res.send(`Thanks for signing up ${user.username}`)
+  res.render('auth/sign-in.ejs')
 })
 
 router.get('/sign-in', (req, res) => {

@@ -6,10 +6,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Page</title>
+    <style>
+      .carousel-img {
+        width: 1000px;
+        height: 500px;
+        object-fit: cover;
+      }
+
+      .custom-img {
+        width: 150px;
+        height: 500px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+    </style>
   </head>
   <body>
     <%- include('./partials/navbar.ejs') %>
-    <br /><br />
+    <br />
     <div class="container my-5">
       <div
         id="carouselExampleInterval"
@@ -20,23 +34,23 @@
         <div class="carousel-inner">
           <div class="carousel-item active" data-bs-interval="3000">
             <img
-              src="https://www.researchgate.net/publication/263091364/figure/fig10/AS:614004300988429@1523401441367/Movie-poster-and-adventure-scene-of-Sanctum.png"
-              class="d-block mx-auto w-100"
+              src="https://i.ebayimg.com/00/s/MTIwMFgxNjAw/z/GtEAAOSw1W9eN1cY/$_57.JPG?set_id=8800005007"
+              class="d-block mx-auto carousel-img"
               alt="Movie image"
             />
           </div>
           <div class="carousel-item" data-bs-interval="3000">
             <img
-              src="https://www.researchgate.net/publication/263091364/figure/fig10/AS:614004300988429@1523401441367/Movie-poster-and-adventure-scene-of-Sanctum.png"
-              class="d-block mx-auto w-100"
-              alt="..."
+              src="https://wallpaperset.com/w/full/3/d/1/366210.jpg"
+              class="d-block mx-auto carousel-img"
+              alt="Movie image"
             />
           </div>
           <div class="carousel-item">
             <img
-              src="https://www.researchgate.net/publication/263091364/figure/fig10/AS:614004300988429@1523401441367/Movie-poster-and-adventure-scene-of-Sanctum.png"
-              class="d-block mx-auto w-100"
-              alt="..."
+              src="https://www.glenbrookcinema.com.au/imagesDB/movies/Spider-ManNoWayHomeSlideRated.jpg"
+              class="d-block mx-auto carousel-img"
+              alt="Movie image"
             />
           </div>
         </div>
@@ -61,38 +75,54 @@
       </div>
     </div>
 
-    <% if (user && user.type == "Admin") { %>
-    <form action="/movies/new" method="GET">
-      <button type="button submit" class="btn btn-secondary">
-        Add a new Movie
-      </button>
-    </form>
-    <% } %> <% if (user && user.type == "Normal") { %>
-    <form action="/bookings/displayBookings/<%=user._id%>" method="GET">
-      <button type="button submit" class="btn btn-secondary">
-        My Bookings
-      </button>
-    </form>
-    <% } %>
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-4">
+        <% if (user && user.type == "Admin") { %>
+        <form action="/movies/new" method="GET">
+          <button type="button submit" class="btn btn-secondary">
+            Add a new Movie
+          </button>
+        </form>
+        <% } %> <% if (user && user.type == "Normal") { %>
+        <!-- <%=user._id%> -->
+        <form action="/bookings/displayBookings" method="GET">
+          <button type="button submit" class="btn btn-secondary">
+            My Bookings
+          </button>
+        </form>
+        <% } %>
+        <div class="col"></div>
+      </div>
+    </div>
 
+    <br />
     <!-- Display cards here -->
 
     <div class="d-flex justify-content-center align-items-center full-height">
-      <div class="d-flex flex-wrap justify-content-center">
-        <% movies.forEach((movie) => { %>
-        <div class="card m-3" style="width: 18rem">
-          <img src="<%= movie.image %>" class="card-img-top" alt="..." />
-          <div class="card-body">
-            <h5 class="card-title"><%= movie.name %></h5>
-            <p class="card-text"><%= movie.description %></p>
-            <% if (user) { %>
-            <a href="/movies/<%= movie._id %>" class="btn btn-primary"
-              >Show Details</a
-            >
-            <% } %>
+      <div class="container">
+        <div class="row">
+          <% movies.forEach((movie, index) => { %>
+          <div class="col-md-4 mb-4">
+            <div class="card" style="width: 100%">
+              <img
+                src="<%= movie.image %>"
+                class="card-img-top custom-img"
+                alt="<%= movie.name %>"
+              />
+              <div class="card-body">
+                <h5 class="card-title"><%= movie.name %></h5>
+                <p class="card-text"><%= movie.description %></p>
+                <% if (user) { %>
+                <a href="/movies/<%= movie._id %>" class="btn btn-primary"
+                  >Show Details</a
+                >
+                <% } %>
+              </div>
+            </div>
           </div>
+          <% }) %>
         </div>
-        <% }) %>
       </div>
     </div>
 

@@ -5,13 +5,17 @@ const router = express.Router()
 const Booking = require('../models/booking.js')
 const Movie = require('../models/movie.js')
 
-router.get('/displayBookings/:userId', async (req, res) => {
+router.get('/displayBookings', async (req, res) => {
   // I have to return user's booking only not all of them
-  const populatedBookings = await Booking.find({}).populate('movieID')
+  const populatedBookings = await Booking.find({
+    userID: req.session.user._id
+  }).populate('movieID')
 
-  console.log(allBookings)
+  // console.log(allBookings)
 
-  //res.render('movies/new.ejs')
+  res.render('bookings/show.ejs', {
+    bookings: populatedBookings
+  })
 })
 
 router.post('/new/:movieId', async (req, res) => {
@@ -21,15 +25,14 @@ router.post('/new/:movieId', async (req, res) => {
     await Booking.create(req.body)
 
     // I have to deduct the number of reserved ticket from number of available tickets
-    // Call the movies route to update available tickets
-    // const movieServiceUrl = `http://localhost:3000/movies/${req.session.user._id}/${req.body.ticketsCount}`
-    // const movieResponse = await axios.put(movieServiceUrl)
 
-    // if (movieResponse.status !== 200) {
-    //   return res
-    //     .status(movieResponse.status)
-    //     .json({ message: movieResponse.data.message })
-    // }
+    const selectedMovie = await Movie.findById(req.params.movieId)
+
+    console.log(selectedMovie)
+    console.log(req.body.ticketsCount)
+    selectedMovie.availableTickets -= req.body.ticketsCount
+
+    await selectedMovie.save()
 
     res.redirect('/')
   } catch (err) {

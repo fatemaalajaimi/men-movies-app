@@ -44,31 +44,51 @@
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              <b>Category:</b> <%= movie.category %>
+              <b>Category: </b> <%= movie.category %>
             </li>
             <li class="list-group-item">
-              <b>Running time:</b><%= movie.runningTime %>
+              <b>Running time: </b><%= movie.runningTime %>
             </li>
-            <li class="list-group-item">A third item</li>
+            <li class="list-group-item">
+              <b>Release Date: </b><%= new
+              Date(movie.releaseDate).toLocaleDateString('en-US', { year:
+              'numeric', month: 'long', day: 'numeric' }) %>
+            </li>
+            <li class="list-group-item">
+              <b>Language: </b><%= movie.language %>
+            </li>
+            <li class="list-group-item">
+              <b>Subtitle(s): </b><%= movie.subtitle %>
+            </li>
+            <% if (user.type == "Admin") { %>
+            <li class="list-group-item">
+              <b>Number of available tickets: </b><%= movie.availableTickets %>
+            </li>
+            <%}%>
           </ul>
 
           <div class="card-body">
             <!-- Admin user -->
             <% if (user.type == "Admin") { %>
-            <a href="/movies/<%= movie._id %>/edit">Edit this movie</a>
+            <div class="d-flex gap-2">
+              <!-- Edit Button -->
+              <a href="/movies/<%= movie._id %>/edit" class="btn btn-primary">
+                Edit this movie
+              </a>
 
-            <form
-              action="/movies/<%= movie._id %>?_method=DELETE"
-              method="POST"
-            >
-              <button type="button submit" class="btn btn-secondary">
-                Delete
-              </button>
-            </form>
+              <!-- Delete Button -->
+              <form
+                action="/movies/<%= movie._id %>?_method=DELETE"
+                method="POST"
+                class="m-0"
+              >
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
             <% } %>
 
             <!-- Normal user -->
-            <% if (user.type == "Normal") { %>
+            <% if (user.type == "Normal" && movie.availableTickets>0) { %>
             <form action="/bookings/new/<%=movie._id%>" method="POST">
               <!-- choose number of tickets -->
               <div class="md-3">
